@@ -486,11 +486,11 @@
         const el = document.getElementById(id);
         if (el) {
           el.addEventListener("input", () => {
-            if (id === "monthlyIncome") profile.monthlyIncome = parseFloat(el.value) || 50000;
-            if (id === "age") profile.age = parseFloat(el.value) || 25;
+            if (id === "monthlyIncome") profile.monthlyIncome = parseFloat(el.value);
+            if (id === "age") profile.age = parseFloat(el.value);
             if (id === "maritalStatus") profile.maritalStatus = el.value;
-            if (id === "dependents") profile.dependents = parseFloat(el.value) || 0;
-            if (id === "riskAppetite") profile.riskAppetite = parseFloat(el.value) || 50;
+            if (id === "dependents") profile.dependents = parseFloat(el.value);
+            if (id === "riskAppetite") profile.riskAppetite = parseFloat(el.value);
 
             renderAll();
           });
