@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinAdvisor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="newpage.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+
+  <!-- Header -->
+  <header class="header bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-emerald-600 p-2 rounded-xl">
+          <i class="fa-solid fa-chart-line text-white text-2xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold tracking-tight">FintelAI</h1>
+      </div>
+        <div class="max-w-7xl mx-auto px-6 pt-6">
+    <div class="flex gap-3 border-b border-slate-200 pb-4">
+
+      <button id="btn1" 
+        onclick="switchTab(1)"
+        class="profile tab-button active px-8 py-3 rounded-2xl font-semibold text-sm flex-1 md:flex-none bg-emerald-600 text-white">
+        X1(Profile)
+      </button>
+      <button id="btn2" 
+        onclick="switchTab(2)"
+        class="recommendation tab-button px-8 py-3 rounded-2xl font-semibold text-sm flex-1 md:flex-none bg-slate-100 hover:bg-slate-200">
+        X2(Recommendation)
+      </button>
+      <button id="btn1" 
+        onclick="switchTab(1)"
+        class="heritage tab-button active px-8 py-3 rounded-2xl font-semibold text-sm flex-1 md:flex-none bg-emerald-600 text-white">
+        X3(Heritage)
+      </button>
+    </div>
+  </div>
+
+
+
+
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full">
+          <i class="fa-solid fa-heart-pulse text-emerald-600"></i>
+          <span class="font-medium text-sm">Health Score:</span>
+          <span id="healthScore" class="font-bold text-emerald-600 text-lg">85</span>
+        </div>
+      </div>
+    </div>
+
+      <!-- Toggle Buttons -->
+
+  </header>
+
+
+
+  <div class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- ==================== TAB 1 ==================== -->
+    <div id="tab1" class="tab-content">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left: Profile -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center gap-3 mb-6">
+              <i class="fa-solid fa-users text-emerald-600 text-xl"></i>
+              <h2 class="font-semibold text-xl">Your Profile</h2>
+            </div>
+            <div class="space-y-5">
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Monthly Income (₹)</label>
+                <input id="monthlyIncome" type="number" value="50000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-slate-600 mb-1">Age</label>
+                  <input id="age" type="number" value="25" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-slate-600 mb-1">Marital Status</label>
+                  <select id="maritalStatus" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none">
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                  </select>
+                </div>
+              </div>
+              <div id="dependentsContainer" class="hidden">
+                <label class="block text-sm font-medium text-slate-600 mb-1">Dependents</label>
+                <input id="dependents" type="number" value="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none">
+              </div>
+              <div>
+                <div class="flex justify-between mb-2">
+                  <label class="text-sm font-medium text-slate-600">Risk Appetite</label>
+                  <span id="riskValue" class="font-bold text-emerald-600">50%</span>
+                </div>
+                <input id="riskAppetite" type="range" min="0" max="100" value="50" class="w-full accent-emerald-600">
+                <div class="flex justify-between text-xs text-slate-400 mt-1">
+                  <span>Conservative</span>
+                  <span>Aggressive</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Smart Insights -->
+          <div class="bg-emerald-900 text-white rounded-3xl p-6 relative overflow-hidden shadow-lg">
+            <div class="flex items-center gap-3 mb-4">
+              <i class="fa-solid fa-lightbulb text-emerald-400"></i>
+              <h2 class="font-semibold text-xl">Smart Insights</h2>
+            </div>
+            <ul id="insightsList" class="space-y-3 text-emerald-100 text-sm"></ul>
+          </div>
+        </div>
+
+        <!-- Right: Income Split + Investment -->
+        <div class="lg:col-span-8 space-y-8">
+          <!-- Income Split -->
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-wallet text-emerald-600 text-xl"></i>
+                <h2 class="font-semibold text-xl">Income Split (Smart Budgeting)</h2>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="h-72">
+                <canvas id="incomePieChart"></canvas>
+              </div>
+              <div id="incomeBreakdown" class="space-y-4"></div>
+            </div>
+          </div>
+
+
+          <!-- Return Calculator -->
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+          <div class="flex items-center gap-3 mb-6">
+            <i class="fa-solid fa-trending-up text-emerald-600 text-xl"></i>
+            <h2 class="font-semibold text-xl">Return Calculator</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-2">Monthly SIP (₹)</label>
+              <input id="calcMonthly" type="number" value="5000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-2">Expected Return (%)</label>
+              <input id="calcRate" type="number" value="12" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 mb-2">Years</label>
+              <input id="calcYears" type="number" value="10" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
+            </div>
+          </div>
+          <div class="h-80 mb-8">
+            <canvas id="growthLineChart"></canvas>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="bg-slate-50 p-5 rounded-2xl">
+              <p class="text-xs font-bold text-slate-400">Total Invested</p>
+              <p id="totalInvested" class="text-2xl font-bold text-slate-800">₹6,00,000</p>
+            </div>
+            <div class="bg-slate-50 p-5 rounded-2xl">
+              <p class="text-xs font-bold text-slate-400">Est. Returns</p>
+              <p id="estReturns" class="text-2xl font-bold text-emerald-600">₹4,85,000</p>
+            </div>
+            <div class="bg-emerald-600 text-white p-5 rounded-2xl">
+              <p class="text-xs font-bold text-emerald-100">Final Value</p>
+              <p id="finalValue" class="text-2xl font-bold">₹10,85,000</p>
+            </div>
+          </div>
+        </div>
+
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2 ==================== -->
+    <div id="tab2" class="tab-content hidden">
+      <div class="space-y-8">
+
+        <!-- Investment Recommendation -->
+          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center gap-3 mb-6">
+              <i class="fa-solid fa-shield-halved text-emerald-600 text-xl"></i>
+              <h2 class="font-semibold text-xl">Investment Recommendation</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="h-56">
+                <canvas id="investmentPieChart"></canvas>
+              </div>
+              <div class="md:col-span-2 space-y-6">
+                <div id="allocationCards" class="grid grid-cols-3 gap-4"></div>
+                <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
+                  <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-3">Suggested Instruments</p>
+                  <div id="instruments" class="flex flex-wrap gap-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- Goal Planning -->
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-bullseye text-emerald-600 text-xl"></i>
+              <h2 class="font-semibold text-xl">Goal Planning</h2>
+            </div>
+            <button onclick="addGoal()" 
+              class="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-5 py-2.5 rounded-2xl text-sm font-semibold transition">
+              <i class="fa-solid fa-plus"></i> Add Goal
+            </button>
+          </div>
+          <div id="goalsContainer" class="space-y-6"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 text-center md:text-left">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-2 opacity-60">
+        <i class="fa-solid fa-chart-line"></i>
+        <span class="font-bold">FinAdvisor</span>
+      </div>
+      <p class="text-xs text-slate-400">© 2026 FinAdvisor. Smart Financial Planning for Everyone.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ==================== Your Original Logic (Unchanged) ====================
+    let profile = { monthlyIncome: 50000, age: 25, maritalStatus: "Single", dependents: 0, riskAppetite: 50 };
+    let goals = [{ id: "1", type: "Emergency", targetAmount: 300000, durationYears: 1, currentSavings: 50000 }];
+
+    function getIncomeSplitLogic(income, maritalStatus, dependents) {
+      let needs = 50, wants = 30, savings = 20;
+      if (maritalStatus === "Married") {
+        needs = 60 + Math.min(dependents * 5, 10);
+        wants = 15;
+        savings = 100 - needs - wants;
+      }
+      if (income > 100000) { savings += 5; wants -= 5; }
+      return { needs, wants, savings };
+    }
+
+    function getInvestmentRecommendation(risk) {
+      if (risk <= 20) return { equity: 10, debt: 80, gold: 10, instruments: ["FD", "Bonds", "Liquid Funds"] };
+      if (risk <= 40) return { equity: 30, debt: 60, gold: 10, instruments: ["Debt Funds", "Gold ETFs", "Large Cap Stocks"] };
+      if (risk <= 60) return { equity: 50, debt: 40, gold: 10, instruments: ["Hybrid Mutual Funds", "Index Funds", "REITs"] };
+      if (risk <= 80) return { equity: 75, debt: 15, gold: 10, instruments: ["Equity Mutual Funds", "Mid-cap Stocks", "ETFs"] };
+      return { equity: 85, debt: 5, gold: 10, instruments: ["Small-cap Stocks", "Direct Equity", "Crypto (Optional)"] };
+    }
+
+    function calculateFutureValue(monthly, rate, years) {
+      const r = rate / 100 / 12;
+      const n = years * 12;
+      if (r === 0) return monthly * n;
+      return monthly * ((Math.pow(1 + r, n) - 1) / r);
+    }
+
+    function getGoalStrategy(amount, years) {
+      const monthly = amount / (years * 12);
+      let type = "Safe (FD, Debt)", strategy = "Focus on capital preservation for short-term goals.";
+      if (years > 3 && years <= 7) { type = "Hybrid (Balanced)"; strategy = "Mix of equity and debt to beat inflation with moderate risk."; }
+      else if (years > 7) { type = "Equity (Growth)"; strategy = "Long-term compounding through diversified equity funds."; }
+      return { monthly, type, strategy };
+    }
+
+    // ==================== Render Functions (Unchanged) ====================
+    let incomeChart, investmentChart, growthChart;
+
+    function renderAll() {
+      renderProfile();
+      renderIncomeSplit();
+      renderInvestment();
+      renderCalculator();
+      renderGoals();
+      renderInsights();
+      updateHealthScore();
+    }
+
+    function renderProfile() {
+      document.getElementById("monthlyIncome").value = profile.monthlyIncome;
+      document.getElementById("age").value = profile.age;
+      document.getElementById("maritalStatus").value = profile.maritalStatus;
+      document.getElementById("riskAppetite").value = profile.riskAppetite;
+      document.getElementById("riskValue").textContent = profile.riskAppetite + "%";
+
+      const depContainer = document.getElementById("dependentsContainer");
+      if (profile.maritalStatus === "Married") {
+        depContainer.classList.remove("hidden");
+        document.getElementById("dependents").value = profile.dependents;
+      } else {
+        depContainer.classList.add("hidden");
+      }
+    }
+
+    function renderIncomeSplit() {
+      const { needs, wants, savings } = getIncomeSplitLogic(profile.monthlyIncome, profile.maritalStatus, profile.dependents);
+      const data = [
+        { name: "Needs", value: Math.round(profile.monthlyIncome * needs / 100), percent: needs, color: "#10b981" },
+        { name: "Wants", value: Math.round(profile.monthlyIncome * wants / 100), percent: wants, color: "#3b82f6" },
+        { name: "Savings", value: Math.round(profile.monthlyIncome * savings / 100), percent: savings, color: "#f59e0b" }
+      ];
+
+      if (incomeChart) incomeChart.destroy();
+      incomeChart = new Chart(document.getElementById("incomePieChart"), {
+        type: "doughnut",
+        data: { labels: data.map(d => d.name), datasets: [{ data: data.map(d => d.value), backgroundColor: data.map(d => d.color), borderWidth: 4 }] },
+        options: { cutout: "65%", plugins: { legend: { position: "bottom" } } }
+      });
+
+      let html = "";
+      data.forEach(item => {
+        html += `<div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-4 rounded-full" style="background-color: ${item.color}"></div>
+            <div><p class="font-medium">${item.name}</p><p class="text-xs text-slate-400">${item.percent}%</p></div>
+          </div>
+          <p class="font-bold">₹${item.value.toLocaleString()}</p>
+        </div>`;
+      });
+      document.getElementById("incomeBreakdown").innerHTML = html;
+    }
+
+    function renderInvestment() {
+      const rec = getInvestmentRecommendation(profile.riskAppetite);
+      const data = [
+        { name: "Equity", value: rec.equity, color: "#10b981" },
+        { name: "Debt", value: rec.debt, color: "#3b82f6" },
+        { name: "Gold", value: rec.gold, color: "#f59e0b" }
+      ];
+
+      if (investmentChart) investmentChart.destroy();
+      investmentChart = new Chart(document.getElementById("investmentPieChart"), {
+        type: "doughnut",
+        data: { labels: data.map(d => d.name), datasets: [{ data: data.map(d => d.value), backgroundColor: data.map(d => d.color), borderWidth: 5 }] },
+        options: { cutout: "60%" }
+      });
+
+      let cards = "";
+      data.forEach(item => {
+        cards += `<div class="text-center p-4 bg-slate-50 rounded-2xl"><p class="text-xs text-slate-500">${item.name}</p><p class="text-2xl font-bold">${item.value}%</p></div>`;
+      });
+      document.getElementById("allocationCards").innerHTML = cards;
+
+      let instHTML = "";
+      rec.instruments.forEach(inst => {
+        instHTML += `<span class="px-4 py-1.5 bg-white text-emerald-700 text-xs font-medium rounded-xl border border-emerald-200">${inst}</span>`;
+      });
+      document.getElementById("instruments").innerHTML = instHTML;
+    }
+
+    function renderCalculator() {
+      const monthly = parseFloat(document.getElementById("calcMonthly").value) || 5000;
+      const rate = parseFloat(document.getElementById("calcRate").value) || 12;
+      const years = parseFloat(document.getElementById("calcYears").value) || 10;
+
+      const futureValue = Math.round(calculateFutureValue(monthly, rate, years));
+      const invested = monthly * 12 * years;
+
+      document.getElementById("totalInvested").textContent = `₹${invested.toLocaleString()}`;
+      document.getElementById("estReturns").textContent = `₹${(futureValue - invested).toLocaleString()}`;
+      document.getElementById("finalValue").textContent = `₹${futureValue.toLocaleString()}`;
+
+      const labels = [], values = [], investedData = [];
+      for (let i = 0; i <= years; i++) {
+        labels.push(`Yr ${i}`);
+        values.push(Math.round(calculateFutureValue(monthly, rate, i)));
+        investedData.push(monthly * 12 * i);
+      }
+
+      if (growthChart) growthChart.destroy();
+      growthChart = new Chart(document.getElementById("growthLineChart"), {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            { label: "Total Value", data: values, borderColor: "#10b981", tension: 0.4, borderWidth: 4 },
+            { label: "Invested", data: investedData, borderColor: "#94a3b8", borderDash: [5, 5], borderWidth: 2 }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "top" } } }
+      });
+    }
+
+    function renderGoals() {
+      const container = document.getElementById("goalsContainer");
+      container.innerHTML = "";
+      goals.forEach(goal => {
+        const remaining = goal.targetAmount - goal.currentSavings;
+        const { monthly, type, strategy } = getGoalStrategy(remaining, goal.durationYears);
+        const progress = Math.min((goal.currentSavings / goal.targetAmount) * 100, 100);
+
+        const div = document.createElement("div");
+        div.className = "p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group";
+        div.innerHTML = `
+          <button onclick="removeGoal('${goal.id}')" class="absolute top-5 right-5 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div class="md:col-span-4 space-y-4">
+              <select onchange="updateGoal('${goal.id}', 'type', this.value)" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+                <option value="Car" ${goal.type==='Car'?'selected':''}>Car</option>
+                <option value="House" ${goal.type==='House'?'selected':''}>House</option>
+                <option value="Travel" ${goal.type==='Travel'?'selected':''}>Travel</option>
+                <option value="Emergency" ${goal.type==='Emergency'?'selected':''}>Emergency</option>
+                <option value="Other" ${goal.type==='Other'?'selected':''}>Other</option>
+              </select>
+              <input type="number" value="${goal.targetAmount}" oninput="updateGoal('${goal.id}', 'targetAmount', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+              <div class="grid grid-cols-2 gap-3">
+                <input type="number" value="${goal.durationYears}" oninput="updateGoal('${goal.id}', 'durationYears', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+                <input type="number" value="${goal.currentSavings}" oninput="updateGoal('${goal.id}', 'currentSavings', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+              </div>
+            </div>
+            <div class="md:col-span-8">
+              <div class="flex justify-between mb-3">
+                <div><p class="text-xs text-slate-500">Progress</p><p class="text-2xl font-bold">${Math.round(progress)}%</p></div>
+                <div class="text-right"><p class="text-xs text-slate-500">Monthly Needed</p><p class="text-2xl font-bold text-emerald-600">₹${Math.round(monthly).toLocaleString()}</p></div>
+              </div>
+              <div class="h-2 bg-slate-200 rounded-full overflow-hidden mb-6">
+                <div class="h-full bg-emerald-500" style="width: ${progress}%"></div>
+              </div>
+              <div class="p-5 bg-white rounded-2xl border border-slate-200 flex gap-4">
+                <div class="bg-emerald-50 p-3 rounded-xl"><i class="fa-solid fa-briefcase text-emerald-600"></i></div>
+                <div><p class="font-semibold text-slate-800">Strategy: ${type}</p><p class="text-sm text-slate-500 mt-1">${strategy}</p></div>
+              </div>
+            </div>
+          </div>`;
+        container.appendChild(div);
+      });
+    }
+
+    function renderInsights() {
+      const { savings } = getIncomeSplitLogic(profile.monthlyIncome, profile.maritalStatus, profile.dependents);
+      const insights = [];
+      if (savings < 20) insights.push("Your savings rate is below the recommended 20%. Try reducing 'Wants'.");
+      if (profile.riskAppetite < 30 && profile.age < 35) insights.push("You're young! Consider a higher risk appetite for better long-term growth.");
+      if (goals.length === 0) insights.push("Set some financial goals to stay motivated.");
+      if (savings >= 30) insights.push("Excellent savings rate! You're on the fast track to financial freedom.");
+
+      let html = "";
+      insights.forEach(text => html += `<li class="flex gap-3"><span class="mt-1.5 w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0"></span>${text}</li>`);
+      document.getElementById("insightsList").innerHTML = html || "<li class='text-emerald-100/70'>Everything looks great!</li>";
+    }
+
+    function updateHealthScore() {
+      const { savings } = getIncomeSplitLogic(profile.monthlyIncome, profile.maritalStatus, profile.dependents);
+      let score = Math.min(savings * 4, 100);
+      if (profile.age < 30 && savings > 20) score += 10;
+      if (goals.length > 0) score += 5;
+      document.getElementById("healthScore").textContent = Math.min(Math.round(score), 100);
+    }
+
+    // ==================== Tab Switching ====================
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+      document.getElementById(`tab${tab}`).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active', 'bg-emerald-600', 'text-white');
+        btn.classList.add('bg-slate-100');
+      });
+      document.getElementById(`btn${tab}`).classList.add('active', 'bg-emerald-600', 'text-white');
+
+      if (tab === 2) renderCalculator(); // Refresh chart when switching to tab 2
+    }
+
+    // ==================== Event Listeners & Goal Functions ====================
+    function setupListeners() {
+      const inputs = ["monthlyIncome", "age", "maritalStatus", "dependents", "riskAppetite"];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", () => {
+            if (id === "monthlyIncome") profile.monthlyIncome = parseFloat(el.value) || 50000;
+            if (id === "age") profile.age = parseFloat(el.value) || 25;
+            if (id === "maritalStatus") profile.maritalStatus = el.value;
+            if (id === "dependents") profile.dependents = parseFloat(el.value) || 0;
+            if (id === "riskAppetite") profile.riskAppetite = parseFloat(el.value) || 50;
+
+            renderAll();
+          });
+        }
+      });
+
+      ["calcMonthly", "calcRate", "calcYears"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", renderCalculator);
+      });
+    }
+
+    window.addGoal = function() {
+      goals.push({ id: Date.now().toString(), type: "Other", targetAmount: 100000, durationYears: 3, currentSavings: 0 });
+      renderGoals();
+      renderInsights();
+      updateHealthScore();
+    };
+
+    window.removeGoal = function(id) {
+      goals = goals.filter(g => g.id !== id);
+      renderGoals();
+      renderInsights();
+      updateHealthScore();
+    };
+
+    window.updateGoal = function(id, field, value) {
+      const goal = goals.find(g => g.id === id);
+      if (goal) {
+        goal[field] = value;
+        renderGoals();
+        renderInsights();
+        updateHealthScore();
+      }
+    };
+
+    // Initialize
+    window.onload = () => {
+      setupListeners();
+      renderAll();
+      switchTab(1); // Start with Button 1
+    };
+  </script>
+</body>
+</html>
