@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FinAdvisor</title>
+  <title>Fintel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="newpage.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
@@ -230,15 +230,39 @@
   </div>
 
   <!-- Footer -->
-  <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 text-center md:text-left">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="flex items-center gap-2 opacity-60">
-        <i class="fa-solid fa-chart-line"></i>
-        <span class="font-bold">FinAdvisor</span>
+</footer>
+
+  <div id="chatbotButton" class="fixed right-6 bottom-6 z-50 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center cursor-pointer hover:bg-emerald-700">
+    <i class="fa-solid fa-comment-dollar fa-lg"></i>
+  </div>
+
+  <div id="chatbotPanel" class="hidden fixed right-6 bottom-24 z-50 flex h-[600px] w-[360px] max-w-[90vw] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
+    <div class="flex items-center justify-between gap-3 bg-emerald-600 px-4 py-3 text-white">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-robot"></i>
+        <div>
+          <p class="font-semibold">Finance Bot</p>
+          <p class="text-xs opacity-80">Ask about investing, saving, taxes</p>
+        </div>
       </div>
-      <p class="text-xs text-slate-400">© 2026 FinAdvisor. Smart Financial Planning for Everyone.</p>
+      <button id="chatbotClose" class="text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
     </div>
-  </footer>
+    <div id="chatbotMessages" class="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4"></div>
+    <div class="border-t border-slate-200 bg-white p-4">
+      <div class="flex gap-2">
+        <input id="chatbotInput" type="text" placeholder="Type a finance question..." class="flex-1 rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+        <button id="chatbotSend" class="rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    #chatbotButton { transition: transform 0.2s ease; }
+    #chatbotButton:hover { transform: translateY(-3px); }
+    .chatbot-bubble { display: inline-block; max-width: 100%; padding: 12px 14px; border-radius: 20px; line-height: 1.4; }
+    .chatbot-user { background: #dcfdf3; color: #164e2b; align-self: flex-end; }
+    .chatbot-bot { background: #f8fafc; color: #0f172a; align-self: flex-start; }
+  </style>
 
   <script>
     // ==================== Your Original Logic (Unchanged) ====================
@@ -528,11 +552,72 @@
     };
 
     // Initialize
-    window.onload = () => {
-      setupListeners();
-      renderAll();
-      switchTab(1); // Start with Button 1
-    };
+ window.onload = () => {
+  setupListeners();
+  setupChatbot();
+  renderAll();
+  switchTab(1);
+};
+
+    function toggleChatbotPanel(show) {
+  const panel = document.getElementById("chatbotPanel");
+  const isHidden = panel.classList.contains("hidden");
+  if (show === false) panel.classList.add("hidden");
+  else if (show === true) panel.classList.remove("hidden");
+  else panel.classList.toggle("hidden", !isHidden);
+}
+
+function addChatbotMessage(text, sender) {
+  const messages = document.getElementById("chatbotMessages");
+  const bubble = document.createElement("div");
+  bubble.className = `chatbot-bubble ${sender === "user" ? "chatbot-user ml-auto" : "chatbot-bot"}`;
+  bubble.textContent = text;
+  messages.appendChild(bubble);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function getFinanceBotReply(text) {
+  const lower = text.toLowerCase();
+  if (!text.trim()) return "Please ask a finance question.";
+  if (lower.includes("mutual fund") || lower.includes("fund")) return "Mutual funds are pooled investment schemes. Pick one based on your risk appetite and investment horizon.";
+  if (lower.includes("sip")) return "A SIP helps you invest a fixed amount monthly and benefit from rupee cost averaging.";
+  if (lower.includes("tax")) return "Use tax-saving investments like ELSS, PPF, and NPS to reduce your taxable income.";
+  if (lower.includes("gold")) return "Gold ETF or sovereign gold bonds are good ways to invest in gold without physical storage.";
+  if (lower.includes("debt")) return "Debt funds are lower-risk than equity and good for stable returns.";
+  if (lower.includes("equity")) return "Equity is best for long-term growth but can be volatile in the short term.";
+  if (lower.includes("budget") || lower.includes("savings")) return "Try the 50/30/20 rule: 50% needs, 30% wants, 20% savings/investments.";
+  return "I only answer finance questions about investing, saving, budgeting, and similar topics.";
+}
+
+function sendChatbotMessage() {
+  const input = document.getElementById("chatbotInput");
+  const text = input.value.trim();
+  if (!text) return;
+  addChatbotMessage(text, "user");
+  input.value = "";
+  setTimeout(() => addChatbotMessage(getFinanceBotReply(text), "bot"), 300);
+}
+
+function setupChatbot() {
+  document.getElementById("chatbotButton").addEventListener("click", () => toggleChatbotPanel());
+  document.getElementById("chatbotClose").addEventListener("click", () => toggleChatbotPanel(false));
+  document.getElementById("chatbotSend").addEventListener("click", sendChatbotMessage);
+  document.getElementById("chatbotInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendChatbotMessage();
+    }
+  });
+  addChatbotMessage("Hi! I am your finance assistant. Ask me about investing, saving, taxes, or mutual funds.", "bot");
+}
+
+
+
+
+
+
+
+
   </script>
 </body>
 </html>
