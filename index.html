@@ -1,1101 +1,404 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fintel</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="newpage.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fintel - Bad at money? Fintel can help.</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', system-ui, sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .wave-section {
+      position: relative;
+      height: 500px;                    
+      background: linear-gradient(135deg, #0f172a, #1e40af, #0ea5e9);
+      overflow: hidden;
+    }
+
+    .wave {
+      bottom: -80px;
+      z-index: 1;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 250px;
+      animation: wave 28s linear infinite;
+    }
+
+    /* Different speeds and opacities for depth */
+    .wave:nth-child(1) {
+      animation-duration: 22s;
+      opacity: 0.95;
+    }
+    
+    .wave:nth-child(2) {
+      animation-duration: 28s;
+      opacity: 0.75;
+    }
+    
+    .wave:nth-child(3) {
+      animation-duration: 35s;
+      opacity: 0.55;
+    }
+
+    @keyframes wave {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      padding: 180px 20px 100px;
+      text-align: center;
+      color: white;
+    }
+
+    .content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+    }
+
+    .content p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #4C6FFF 0%, #1E3A8A 100%);
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .logo span {
+      color: #4ADE80;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .login-btn {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .start-btn {
+      background: #4ADE80;
+      color: #1E3A8A;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 5% 100px;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 500px;
+    }
+    .hero-float-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 420px;           /* Adjust as needed */
+  margin: 0 auto;
+}
+
+
+
+@keyframes smoothFloat {
+  0%, 100% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(6px, -10px); /* small diagonal movement */
+  }
+}
+.floating-shadow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 25px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 70%);
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.2;
+  animation: shadowFloat 3s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-18px); }
+}
+
+/* Shadow Animation */
+@keyframes shadowFloat {
+  0%, 100% { 
+    transform: translateX(-50%) scale(1); 
+    opacity: 0.2; 
+  }
+  50% { 
+    transform: translateX(-50%) scale(0.85); 
+    opacity: 0.08; 
+  }
+}
+    .hero h1 {
+      font-size: 3.5rem;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    .hero .subtext {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    .trial-btn {
+      background: #4ADE80;
+      color: #1E3A8A;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .trial-btn:hover {
+      background: #22C55E;
+      transform: scale(1.05);
+    }
+
+    .no-card {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    /* Phone Mockup */
+.phone-container {
+  position: relative;
+  width: 40%;
+  height: 620px;
+}
+.hero-dollars {
+  position: absolute;
+  top: -20px;      /* adjust */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;    /* adjust size */
+  z-index: 2;
+  pointer-events: none;
+}
+
+.floating-hero {
+  width: 100%;
+  animation: smoothFloat 4s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+    .phone {
+      position: absolute;
+      width: 380px;
+      height: 620px;
+      background: linear-gradient(180deg, #3B82F6, #1E40AF);
+      border-radius: 50px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      border: 12px solid #111827;
+    }
+    .phone-screen {
+      height: 100%;
+      background: white;
+      color: #1F2937;
+      padding: 20px;
+      position: relative;
+    }
+
+    .phone-header {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .transaction-card {
+      background: #F3F4F6;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .priority-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .money {
+      position: absolute;
+      width: 50px;
+      animation: float 6s infinite ease-in-out;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(10deg); }
+    }
+
+    /* Background waves */
+    .wave-bg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #22C55E, #86EFAC);
+      z-index: -1;
+      opacity: 0.9;
+    }
+
+    .wave-bg2 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 400px;
+      background: #F8FAFC;
+      z-index: -2;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900">
-
+<body>
   <!-- Header -->
-  <header class="header bg-white border-b border-slate-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="bg-emerald-600 p-2 rounded-xl">
-          <i class="fa-solid fa-chart-line text-white text-2xl"></i>
-        </div>
-        <h1 class="text-2xl font-bold tracking-tight">FintelAI</h1>
-      </div>
-        <div class="max-w-7xl mx-auto px-6 pt-6">
-    <div class="flex gap-3 border-b border-slate-200 pb-4">
-
-      <button id="btn1" 
-        onclick="switchTab(1)"
-        class="profile tab-button active px-8 py-3 rounded-2xl font-semibold text-sm flex-1 md:flex-none bg-emerald-600 text-white">
-        X1(Profile)
-      </button>
-      <button id="btn2" 
-        onclick="switchTab(2)"
-        class="recommendation tab-button px-8 py-3 rounded-2xl font-semibold text-sm flex-1 md:flex-none bg-slate-100 hover:bg-slate-200">
-        X2(Recommendation)
-      </button>
-      <button id="btn1" 
-        onclick="switchTab(1)"
-        class="heritage tab-button active px-8 py-3 rounded-2xl font-semibold text-sm flex-1 md:flex-none bg-emerald-600 text-white">
-        X3(Heritage)
-      </button>
+  <header class="header">
+    <div class="logo">Fintel<span>.</span></div>
+    <nav>
+      <a href="#">What is Fintel?</a>
+      <a href="app.html">Learn</a>
+      <a href="index2.html?tab2">Share Fintel</a>
+      <a href="#">Pricing</a>
+    </nav>
+    <div class="nav-right">
+      <a href="homepage.html" class="login-btn">Log In</a>
+      <a href="#" class="start-btn">Start Your Free Trial</a>
     </div>
-  </div>
-
-
-
-
-      <div class="flex items-center gap-4">
-        <div class="hidden md:flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full">
-          <i class="fa-solid fa-heart-pulse text-emerald-600"></i>
-          <span class="font-medium text-sm">Health Score:</span>
-          <span id="healthScore" class="font-bold text-emerald-600 text-lg">85</span>
-        </div>
-      </div>
-    </div>
-
-      <!-- Toggle Buttons -->
-
   </header>
 
-
-
-  <div class="max-w-7xl mx-auto px-6 py-8">
-
-    <!-- ==================== TAB 1 ==================== -->
-    <div id="tab1" class="tab-content">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-        <!-- Left: Profile -->
-        <div class="lg:col-span-4 space-y-6">
-          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-            <div class="flex items-center gap-3 mb-6">
-              <i class="fa-solid fa-users text-emerald-600 text-xl"></i>
-              <h2 class="font-semibold text-xl">Your Profile</h2>
-            </div>
-            <div class="space-y-5">
-              <div>
-                <label class="block text-sm font-medium text-slate-600 mb-1">Monthly Income (₹)</label>
-                <input id="monthlyIncome" type="number" value="50000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
-              </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-slate-600 mb-1">Age</label>
-                  <input id="age" type="number" value="25" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-slate-600 mb-1">Marital Status</label>
-                  <select id="maritalStatus" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none">
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                  </select>
-                </div>
-              </div>
-              <div id="dependentsContainer" class="hidden">
-                <label class="block text-sm font-medium text-slate-600 mb-1">Dependents</label>
-                <input id="dependents" type="number" value="0" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none">
-              </div>
-              <div>
-                <div class="flex justify-between mb-2">
-                  <label class="text-sm font-medium text-slate-600">Risk Appetite</label>
-                  <span id="riskValue" class="font-bold text-emerald-600">50%</span>
-                </div>
-                <input id="riskAppetite" type="range" min="0" max="100" value="50" class="w-full accent-emerald-600">
-                <p class="mt-3 text-sm text-slate-500">Customize your risk profile or use guided assessment for a recommended score.</p>
-                <button id="riskGuideButton" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800"> 
-                  <i class="fa-solid fa-circle-info"></i> Guided risk assessment
-                </button>
-                <div class="flex justify-between text-xs text-slate-400 mt-3">
-                  <span>Conservative</span>
-                  <span>Aggressive</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Smart Insights -->
-          <div class="bg-emerald-900 text-white rounded-3xl p-6 relative overflow-hidden shadow-lg">
-            <div class="flex items-center gap-3 mb-4">
-              <i class="fa-solid fa-lightbulb text-emerald-400"></i>
-              <h2 class="font-semibold text-xl">Smart Insights</h2>
-            </div>
-            <ul id="insightsList" class="space-y-3 text-emerald-100 text-sm"></ul>
-          </div>
-        </div>
-
-        <!-- Right: Income Split + Investment -->
-        <div class="lg:col-span-8 space-y-8">
-          <!-- Income Split -->
-          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-            <div class="flex items-center justify-between mb-6">
-              <div class="flex items-center gap-3">
-                <i class="fa-solid fa-wallet text-emerald-600 text-xl"></i>
-                <h2 class="font-semibold text-xl">Income Split (Smart Budgeting)</h2>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div class="h-72">
-                <canvas id="incomePieChart"></canvas>
-              </div>
-              <div id="incomeBreakdown" class="space-y-4"></div>
-            </div>
-          </div>
-
-
-          <!-- Return Calculator -->
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <i class="fa-solid fa-trending-up text-emerald-600 text-xl"></i>
-            <h2 class="font-semibold text-xl">Return Calculator</h2>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div>
-              <label class="block text-xs font-bold text-slate-400 mb-2">Monthly SIP (₹)</label>
-              <input id="calcMonthly" type="number" value="5000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-400 mb-2">Expected Return (%)</label>
-              <input id="calcRate" type="number" value="12" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-400 mb-2">Years</label>
-              <input id="calcYears" type="number" value="10" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl">
-            </div>
-          </div>
-          <div class="h-80 mb-8">
-            <canvas id="growthLineChart"></canvas>
-          </div>
-          <div class="grid grid-cols-3 gap-4">
-            <div class="bg-slate-50 p-5 rounded-2xl">
-              <p class="text-xs font-bold text-slate-400">Total Invested</p>
-              <p id="totalInvested" class="text-2xl font-bold text-slate-800">₹6,00,000</p>
-            </div>
-            <div class="bg-slate-50 p-5 rounded-2xl">
-              <p class="text-xs font-bold text-slate-400">Est. Returns</p>
-              <p id="estReturns" class="text-2xl font-bold text-emerald-600">₹4,85,000</p>
-            </div>
-            <div class="bg-emerald-600 text-white p-5 rounded-2xl">
-              <p class="text-xs font-bold text-emerald-100">Final Value</p>
-              <p id="finalValue" class="text-2xl font-bold">₹10,85,000</p>
-            </div>
-          </div>
-        </div>
-
-          
-        </div>
-      </div>
+  <!-- Hero Section -->
+    <section class="hero">
+    <div class="hero-content">
+      <h1>Bad at money?<br>Fintel can help.</h1>
+      <p class="subtext">Start your free trial and get good at money.</p>
+      
+      <button class="trial-btn">Start Your Free Trial</button>
+      <p class="no-card">It's easy! No credit card required.</p>
     </div>
 
-    <!-- ==================== TAB 2 ==================== -->
-    <div id="tab2" class="tab-content hidden">
-      <div class="space-y-8">
 
-        <!-- Investment Recommendation -->
-          <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-            <div class="flex items-center gap-3 mb-6">
-              <i class="fa-solid fa-shield-halved text-emerald-600 text-xl"></i>
-              <h2 class="font-semibold text-xl">Investment Recommendation</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="h-56">
-                <canvas id="investmentPieChart"></canvas>
-              </div>
-              <div class="md:col-span-2 space-y-6">
-                <div id="allocationCards" class="grid grid-cols-3 gap-4"></div>
-                <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
-                  <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-3">Suggested Funds, ETFs & Stocks</p>
-                  <div id="instruments" class="flex flex-wrap gap-2"></div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-        <!-- Goal Planning -->
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-          <div class="flex justify-between items-center mb-6">
-            <div class="flex items-center gap-3">
-              <i class="fa-solid fa-bullseye text-emerald-600 text-xl"></i>
-              <h2 class="font-semibold text-xl">Goal Planning</h2>
-            </div>
-            <button onclick="addGoal()" 
-              class="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-5 py-2.5 rounded-2xl text-sm font-semibold transition">
-              <i class="fa-solid fa-plus"></i> Add Goal
-            </button>
-          </div>
-          <div id="goalsContainer" class="space-y-6"></div>
+    <!-- Phone Mockup -->
+    <div class="phone-container">
+
+        
+
+      <!-- Floating Money -->
+      <!-- <img src="https://cdn-icons-png.flaticon.com/512/8597/8597092.png" class="money" style="top: 80px; left: -40px; width: 60px; animation-delay: 0s;" alt="money">
+      <img src="https://cdn-icons-png.flaticon.com/512/8597/8597092.png" class="money" style="top: 180px; right: -50px; width: 45px; animation-delay: 1.5s;" alt="money">
+      <img src="https://cdn-icons-png.flaticon.com/512/8597/8597092.png" class="money" style="bottom: 120px; left: 20px; width: 55px; animation-delay: 3s;" alt="money">
+      <img src="https://cdn-icons-png.flaticon.com/512/8597/8597092.png" class="money" style="top: 320px; right: -30px; width: 50px; animation-delay: 2.2s;" alt="money"> -->
+      
+        <img src="flyingmoney.svg" loading="eager" alt="" class="hero-dollars">
+        <img src="https://cdn.prod.website-files.com/640f69143ec11b21d42015c6/6502e96f8b7ff92feac8c8ab_8f4df614c4e37b06ccda5279439473b1_hero-phone.avif" loading="eager" style="transform: translate3d(0px, -9.9787px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; will-change: transform;" data-w-id="6983338b-80d3-1fa6-2d52-6c8b3570975b" alt="An illustrated version of the Fintel app on a mobile device" class="floating-hero">
+
+        <div style="opacity: 0.197773; transform: translate3d(0px, 0px, 0px) scale3d(0.99868, 0.99868, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; will-change: transform, opacity;" class="floating-shadow">
         </div>
-
-      </div>
     </div>
 
-  </div>
+  </section> 
+
+      <!-- Layer 1 - Strongest wave (brightest) -->
+        <svg class="wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#f8fafc" fill-opacity="0.95" 
+            d="M0,160L40,176C80,192,160,224,240,213.3C320,203,400,149,480,138.7C560,128,640,160,720,176C800,192,880,192,960,170.7C1040,149,1120,107,1200,101.3C1280,96,1360,128,1400,144L1440,160L1440,320L0,320Z"></path>
+        </svg>
+
+        <!-- Layer 2 - Medium wave -->
+        <svg class="wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#e0f2fe" fill-opacity="0.75" 
+            d="M0,192L40,186.7C80,181,160,171,240,165.3C320,160,400,160,480,170.7C560,181,640,203,720,213.3C800,224,880,224,960,208C1040,192,1120,160,1200,149.3C1280,139,1360,149,1400,154.7L1440,160L1440,320L0,320Z"></path>
+        </svg>
+
+        <!-- Layer 3 - Softest wave (gentle highs and lows) -->
+        <svg class="wave" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#bae6fd" fill-opacity="0.55" 
+            d="M0,224L40,213.3C80,203,160,181,240,186.7C320,192,400,224,480,229.3C560,235,640,213,720,197.3C800,181,880,171,960,170.7C1040,171,1120,181,1200,192C1280,203,1360,213,1400,218.7L1440,224L1440,320L0,320Z"></path>
+        </svg>
+          <!-- <svg class="wave-static" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="#f8fafc" d="M0,80 L1440,120 L1440,200 L0,200 Z"></path>
+        </svg> -->
+
+
+  <!-- Background Waves -->
+  <!-- <div class="wave-bg"></div>
+  <div class="wave-bg2"></div> -->
 
-  <!-- Footer -->
-</footer>
-
-  <div id="chatbotButton" class="fixed right-6 bottom-6 z-50 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center cursor-pointer hover:bg-emerald-700">
-    <i class="fa-solid fa-comment-dollar fa-lg"></i>
-  </div>
-
-  <div id="chatbotPanel" class="hidden fixed right-6 bottom-24 z-50 flex h-[600px] w-[360px] max-w-[90vw] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
-    <div class="flex items-center justify-between gap-3 bg-emerald-600 px-4 py-3 text-white">
-      <div class="flex items-center gap-3">
-        <i class="fa-solid fa-robot"></i>
-        <div>
-          <p class="font-semibold">Finance Bot</p>
-          <p class="text-xs opacity-80">Ask about investing, saving, taxes</p>
-        </div>
-      </div>
-      <button id="chatbotClose" class="text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div id="chatbotMessages" class="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4"></div>
-    <div class="border-t border-slate-200 bg-white p-4">
-      <div class="flex gap-2">
-        <input id="chatbotInput" type="text" placeholder="Type a finance question..." class="flex-1 rounded-2xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-        <button id="chatbotSend" class="rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700">Send</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="riskModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/70 p-4">
-    <div class="w-full max-w-4xl rounded-[28px] bg-white shadow-2xl overflow-hidden">
-      <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
-        <div>
-          <h3 class="text-xl font-semibold text-slate-900">Risk Appetite Assessment</h3>
-          <p class="mt-1 text-sm text-slate-500">Answer 12 quick questions to calculate your recommended risk score.</p>
-        </div>
-        <button id="closeRiskModal" class="text-slate-500 hover:text-slate-900">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-      <div class="px-6 py-6 space-y-6 max-h-[calc(100vh-10rem)] overflow-y-auto">
-        <div class="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4">
-          <p class="text-sm text-slate-700">Answered</p>
-          <p id="riskSelectionCount" class="text-sm font-semibold text-slate-900">0 / 12</p>
-        </div>
-        <div class="space-y-5">
-          <div>
-            <p class="font-semibold text-slate-800">Q1. What is your current age?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q1" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Below 30</button>
-              <button type="button" data-question="q1" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">30-40</button>
-              <button type="button" data-question="q1" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">41-50</button>
-              <button type="button" data-question="q1" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">51-60</button>
-              <button type="button" data-question="q1" data-value="100" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Above 60</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q2. When do you expect to need a significant portion of this investment money?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <button type="button" data-question="q2" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Less than 3 years</button>
-              <button type="button" data-question="q2" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">3-5 years</button>
-              <button type="button" data-question="q2" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">6-10 years</button>
-              <button type="button" data-question="q2" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">More than 10 years</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q3. How would you describe your current financial situation?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q3" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">High debt and little savings</button>
-              <button type="button" data-question="q3" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Some savings but liabilities</button>
-              <button type="button" data-question="q3" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Good savings and stable income</button>
-              <button type="button" data-question="q3" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Strong savings + emergency fund</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q4. What is your level of investment knowledge?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <button type="button" data-question="q4" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">None/Beginner</button>
-              <button type="button" data-question="q4" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Basic</button>
-              <button type="button" data-question="q4" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Moderate</button>
-              <button type="button" data-question="q4" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Advanced</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q5. Which statement best describes your investment philosophy?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q5" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Safety first even if returns are low</button>
-              <button type="button" data-question="q5" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Balance between growth and safety</button>
-              <button type="button" data-question="q5" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Higher risk for higher returns</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q6. If your investment portfolio drops by 20% in a short period, what would you do?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <button type="button" data-question="q6" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Sell everything</button>
-              <button type="button" data-question="q6" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Sell some</button>
-              <button type="button" data-question="q6" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Do nothing and wait</button>
-              <button type="button" data-question="q6" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Buy more</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q7. How do you feel about market volatility?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <button type="button" data-question="q7" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Very uncomfortable</button>
-              <button type="button" data-question="q7" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Somewhat uncomfortable</button>
-              <button type="button" data-question="q7" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Neutral</button>
-              <button type="button" data-question="q7" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Comfortable</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q8. What is your primary investment goal?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q8" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Capital preservation</button>
-              <button type="button" data-question="q8" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Balanced growth</button>
-              <button type="button" data-question="q8" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Aggressive growth</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q9. Suppose you invested ₹1,00,000 and after 6 months it became ₹80,000. How would you react?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <button type="button" data-question="q9" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Very worried, withdraw</button>
-              <button type="button" data-question="q9" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Concerned but hold</button>
-              <button type="button" data-question="q9" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Understand market cycles</button>
-              <button type="button" data-question="q9" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Not worried</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q10. Which portfolio would you prefer?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q10" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Portfolio A: 6% low risk</button>
-              <button type="button" data-question="q10" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Portfolio B: 10% moderate</button>
-              <button type="button" data-question="q10" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Portfolio C: 15%+ high risk</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q11. How concerned are you about inflation?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q11" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Not concerned</button>
-              <button type="button" data-question="q11" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Somewhat concerned</button>
-              <button type="button" data-question="q11" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Very concerned</button>
-            </div>
-          </div>
-          <div>
-            <p class="font-semibold text-slate-800">Q12. If you suddenly received ₹50,000 to invest, what would you do?</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <button type="button" data-question="q12" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Safe options (FD)</button>
-              <button type="button" data-question="q12" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Split between safe and growth</button>
-              <button type="button" data-question="q12" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Mostly in equity/mutual funds</button>
-            </div>
-          </div>
-        </div>
-        <div class="rounded-3xl border border-emerald-100 bg-emerald-50 p-4">
-          <p class="text-sm text-slate-600">Recommended score:</p>
-          <p id="computedRiskScore" class="text-3xl font-semibold text-emerald-700">50%</p>
-        </div>
-      </div>
-      <div class="flex flex-col gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <button id="resetRiskAssessment" class="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">Reset</button>
-        <button id="saveRiskAssessment" disabled class="rounded-2xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white opacity-50">Submit & Get My Risk Profile</button>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    #chatbotButton { transition: transform 0.2s ease; }
-    #chatbotButton:hover { transform: translateY(-3px); }
-    .chatbot-bubble { display: inline-block; max-width: 100%; padding: 12px 14px; border-radius: 20px; line-height: 1.4; }
-    .chatbot-user { background: #dcfdf3; color: #164e2b; align-self: flex-end; }
-    .chatbot-bot { background: #f8fafc; color: #0f172a; align-self: flex-start; }
-  </style>
-
-  <script>
-    // ==================== Your Original Logic (Unchanged) ====================
-    let profile = { monthlyIncome: 50000, age: 25, maritalStatus: "Single", dependents: 0, riskAppetite: 50 };
-    let goals = [{ id: "1", type: "Emergency", targetAmount: 300000, durationYears: 1, currentSavings: 50000 }];
-
-    function getIncomeSplitLogic(income, maritalStatus, dependents) {
-      let needs = 50, wants = 30, savings = 20;
-      if (maritalStatus === "Married") {
-        needs = 60 + Math.min(dependents * 5, 10);
-        wants = 15;
-        savings = 100 - needs - wants;
-      }
-      if (income > 100000) { savings += 5; wants -= 5; }
-      return { needs, wants, savings };
-    }
-
-  function getInvestmentRecommendation(risk) {
-  const bucket = Math.min(100, Math.max(0, Math.round(risk / 5) * 5));
-
-  const recommendationMap = {
-    0: {
-      equity: 0, debt: 90, gold: 10,
-      instruments: [
-        "Bank FD",
-        "HDFC Corporate Bond Fund (Direct)",
-        "ICICI Prudential Corporate Bond Fund",
-        "Axis Liquid Fund",
-        "HDFC Liquid Fund",
-        "SBI Overnight Fund",
-        "Sovereign Gold Bond"
-      ]
-    },
-
-    5: {
-      equity: 0, debt: 85, gold: 15,
-      instruments: [
-        "Bank FD",
-        "ICICI Prudential Liquid Fund",
-        "Axis Liquid Fund",
-        "UTI Liquid Fund",
-        "HDFC Overnight Fund",
-        "SBI Liquid Fund",
-        "Nippon India ETF Gold"
-      ]
-    },
-
-    10: {
-      equity: 5, debt: 75, gold: 20,
-      instruments: [
-        "ICICI Prudential Liquid Fund",
-        "HDFC Overnight Fund",
-        "Axis Liquid Fund",
-        "SBI Liquid Fund",
-        "Bank FD",
-        "UTI Liquid Fund",
-        "Sovereign Gold Bond"
-      ]
-    },
-
-    15: {
-      equity: 10, debt: 70, gold: 20,
-      instruments: [
-        "HDFC Corporate Bond Fund",
-        "ICICI Prudential Short Term Fund",
-        "Axis Short Duration Fund",
-        "SBI Short Term Debt Fund",
-        "HDFC Liquid Fund",
-        "UTI Liquid Fund",
-        "Nippon India ETF Gold"
-      ]
-    },
-
-    20: {
-      equity: 15, debt: 65, gold: 20,
-      instruments: [
-        "ICICI Prudential Bond Fund",
-        "Tata Short Term Fund",
-        "Axis Banking & PSU Debt Fund",
-        "SBI Magnum Medium Duration Fund",
-        "HDFC Corporate Bond Fund",
-        "UTI Short Duration Fund",
-        "SBI Gold ETF"
-      ]
-    },
-
-    25: {
-      equity: 20, debt: 55, gold: 25,
-      instruments: [
-        "Tata Hybrid Equity Fund",
-        "ICICI Prudential Balanced Advantage Fund",
-        "HDFC Corporate Bond Fund",
-        "Axis Aggressive Hybrid Fund",
-        "SBI Equity Hybrid Fund",
-        "UTI Hybrid Equity Fund",
-        "SBI Gold ETF"
-      ]
-    },
-
-    30: {
-      equity: 30, debt: 50, gold: 20,
-      instruments: [
-        "HDFC Balanced Advantage Fund",
-        "ICICI Prudential Balanced Advantage Fund",
-        "Nippon India Nifty 50 ETF",
-        "UTI Nifty Index Fund",
-        "HDFC Corporate Bond Fund",
-        "Axis Bluechip Fund",
-        "SBI Gold ETF"
-      ]
-    },
-
-    35: {
-      equity: 35, debt: 45, gold: 20,
-      instruments: [
-        "ICICI Prudential Bluechip Fund",
-        "Axis Bluechip Fund",
-        "UTI Nifty Index Fund",
-        "HDFC Corporate Bond Fund",
-        "ICICI Prudential Bond Fund",
-        "Nippon India Nifty ETF",
-        "SBI Gold ETF"
-      ]
-    },
-
-    40: {
-      equity: 40, debt: 40, gold: 20,
-      instruments: [
-        "Mirae Asset Large Cap Fund",
-        "ICICI Prudential Bluechip Fund",
-        "Nippon India Nifty 50 ETF",
-        "UTI Nifty ETF",
-        "HDFC Corporate Bond Fund",
-        "Axis Short Term Fund",
-        "ICICI Prudential Bond Fund"
-      ]
-    },
-
-    45: {
-      equity: 45, debt: 35, gold: 20,
-      instruments: [
-        "Axis Bluechip Fund",
-        "Kotak Bluechip Fund",
-        "Nippon India Nifty ETF",
-        "UTI Nifty ETF",
-        "ICICI Prudential Corporate Bond Fund",
-        "Axis Banking & PSU Debt Fund",
-        "Nippon India ETF Gold"
-      ]
-    },
-
-    50: {
-      equity: 50, debt: 30, gold: 20,
-      instruments: [
-        "SBI Bluechip Fund",
-        "ICICI Prudential Bluechip Fund",
-        "Motilal Oswal Nasdaq 100 ETF",
-        "Nippon India Nifty 50 ETF",
-        "HDFC Corporate Bond Fund",
-        "Axis Short Duration Fund",
-        "Bank FD"
-      ]
-    },
-
-    55: {
-      equity: 55, debt: 25, gold: 20,
-      instruments: [
-        "Parag Parikh Flexi Cap Fund",
-        "Mirae Asset Large Cap Fund",
-        "Nifty 50 ETF",
-        "Motilal Oswal Nasdaq 100 ETF",
-        "ICICI Prudential Bond Fund",
-        "Axis Short Duration Fund",
-        "Nippon India ETF Gold"
-      ]
-    },
-
-    60: {
-      equity: 60, debt: 20, gold: 20,
-      instruments: [
-        "ICICI Prudential Multicap Fund",
-        "Parag Parikh Flexi Cap Fund",
-        "Nifty Next 50 ETF",
-        "Motilal Oswal Nasdaq 100 ETF",
-        "Axis Midcap Fund",
-        "ICICI Prudential Bond Fund",
-        "SBI Gold ETF"
-      ]
-    },
-
-    65: {
-      equity: 65, debt: 15, gold: 20,
-      instruments: [
-        "Kotak Emerging Equity Fund",
-        "Axis Midcap Fund",
-        "Nifty Next 50 ETF",
-        "Motilal Oswal Nasdaq ETF",
-        "Power Sector ETF",
-        "ICICI Prudential Short Term Fund",
-        "Nippon India ETF Gold"
-      ]
-    },
-
-    70: {
-      equity: 70, debt: 10, gold: 20,
-      instruments: [
-        "DSP Midcap Fund",
-        "Kotak Emerging Equity Fund",
-        "Nifty Bank ETF",
-        "Motilal Oswal Nasdaq ETF",
-        "Nifty Next 50 ETF",
-        "Axis Small Cap Fund",
-        "Sovereign Gold Bond"
-      ]
-    },
-
-    75: {
-      equity: 75, debt: 5, gold: 20,
-      instruments: [
-        "Motilal Oswal Nifty 500 Fund",
-        "DSP Midcap Fund",
-        "Axis Small Cap Fund",
-        "Bank Nifty ETF",
-        "Nifty Next 50 ETF",
-        "Motilal Oswal Nasdaq ETF",
-        "Nippon India ETF Gold"
-      ]
-    },
-
-    80: {
-      equity: 80, debt: 0, gold: 20,
-      instruments: [
-        "ICICI Prudential Value Discovery Fund",
-        "Parag Parikh Flexi Cap Fund",
-        "Nifty 50 ETF",
-        "Nifty Next 50 ETF",
-        "Motilal Oswal Nasdaq ETF",
-        "Sectoral ETF",
-        "Gold ETF"
-      ]
-    },
-
-    85: {
-      equity: 85, debt: 0, gold: 15,
-      instruments: [
-        "SBI Small Cap Fund",
-        "Axis Small Cap Fund",
-        "Nifty Next 50 ETF",
-        "Midcap 150 ETF",
-        "Sectoral ETF",
-        "Motilal Oswal Nasdaq ETF",
-        "Gold ETF"
-      ]
-    },
-
-    90: {
-      equity: 90, debt: 0, gold: 10,
-      instruments: [
-        "Direct Large Cap Stocks",
-        "Nifty 50 ETF",
-        "Nifty Next 50 ETF",
-        "Midcap ETF",
-        "Sectoral ETF",
-        "Motilal Oswal Nasdaq ETF",
-        "Gold ETF"
-      ]
-    },
-
-    95: {
-      equity: 95, debt: 0, gold: 5,
-      instruments: [
-        "High Beta Stocks",
-        "Bank Nifty ETF",
-        "Midcap ETF",
-        "Small Cap ETF",
-        "Sectoral ETF",
-        "Nasdaq ETF",
-        "Gold ETF"
-      ]
-    },
-
-    100: {
-      equity: 100, debt: 0, gold: 0,
-      instruments: [
-        "F&O Strategy (Nifty/Bank Nifty)",
-        "Direct Equity Portfolio",
-        "Nifty 50 ETF",
-        "Bank Nifty ETF",
-        "Midcap ETF",
-        "Small Cap ETF",
-        "Sector Rotation Strategy"
-      ]
-    }
-  };
-
-  return recommendationMap[bucket];
-}
-    
-
-    function calculateFutureValue(monthly, rate, years) {
-      const r = rate / 100 / 12;
-      const n = years * 12;
-      if (r === 0) return monthly * n;
-      return monthly * ((Math.pow(1 + r, n) - 1) / r);
-    }
-
-    function getGoalStrategy(amount, years) {
-      const monthly = amount / (years * 12);
-      let type = "Safe (FD, Debt)", strategy = "Focus on capital preservation for short-term goals.";
-      if (years > 3 && years <= 7) { type = "Hybrid (Balanced)"; strategy = "Mix of equity and debt to beat inflation with moderate risk."; }
-      else if (years > 7) { type = "Equity (Growth)"; strategy = "Long-term compounding through diversified equity funds."; }
-      return { monthly, type, strategy };
-    }
-
-    // ==================== Render Functions (Unchanged) ====================
-    let incomeChart, investmentChart, growthChart;
-
-    function renderAll() {
-      renderProfile();
-      renderIncomeSplit();
-      renderInvestment();
-      renderCalculator();
-      renderGoals();
-      renderInsights();
-      updateHealthScore();
-    }
-
-    function renderProfile() {
-      document.getElementById("monthlyIncome").value = profile.monthlyIncome;
-      document.getElementById("age").value = profile.age;
-      document.getElementById("maritalStatus").value = profile.maritalStatus;
-      document.getElementById("riskAppetite").value = profile.riskAppetite;
-      document.getElementById("riskValue").textContent = profile.riskAppetite + "%";
-
-      const depContainer = document.getElementById("dependentsContainer");
-      if (profile.maritalStatus === "Married") {
-        depContainer.classList.remove("hidden");
-        document.getElementById("dependents").value = profile.dependents;
-      } else {
-        depContainer.classList.add("hidden");
-      }
-    }
-
-    function renderIncomeSplit() {
-      const { needs, wants, savings } = getIncomeSplitLogic(profile.monthlyIncome, profile.maritalStatus, profile.dependents);
-      const data = [
-        { name: "Needs", value: Math.round(profile.monthlyIncome * needs / 100), percent: needs, color: "#10b981" },
-        { name: "Wants", value: Math.round(profile.monthlyIncome * wants / 100), percent: wants, color: "#3b82f6" },
-        { name: "Savings", value: Math.round(profile.monthlyIncome * savings / 100), percent: savings, color: "#f59e0b" }
-      ];
-
-      if (incomeChart) incomeChart.destroy();
-      incomeChart = new Chart(document.getElementById("incomePieChart"), {
-        type: "doughnut",
-        data: { labels: data.map(d => d.name), datasets: [{ data: data.map(d => d.value), backgroundColor: data.map(d => d.color), borderWidth: 4 }] },
-        options: { cutout: "65%", plugins: { legend: { position: "bottom" } } }
-      });
-
-      let html = "";
-      data.forEach(item => {
-        html += `<div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-          <div class="flex items-center gap-3">
-            <div class="w-4 h-4 rounded-full" style="background-color: ${item.color}"></div>
-            <div><p class="font-medium">${item.name}</p><p class="text-xs text-slate-400">${item.percent}%</p></div>
-          </div>
-          <p class="font-bold">₹${item.value.toLocaleString()}</p>
-        </div>`;
-      });
-      document.getElementById("incomeBreakdown").innerHTML = html;
-    }
-
-    function renderInvestment() {
-      const rec = getInvestmentRecommendation(profile.riskAppetite);
-      const data = [
-        { name: "Equity", value: rec.equity, color: "#10b981" },
-        { name: "Debt", value: rec.debt, color: "#3b82f6" },
-        { name: "Gold", value: rec.gold, color: "#f59e0b" }
-      ];
-
-      if (investmentChart) investmentChart.destroy();
-      investmentChart = new Chart(document.getElementById("investmentPieChart"), {
-        type: "doughnut",
-        data: { labels: data.map(d => d.name), datasets: [{ data: data.map(d => d.value), backgroundColor: data.map(d => d.color), borderWidth: 5 }] },
-        options: { cutout: "60%" }
-      });
-
-      let cards = "";
-      data.forEach(item => {
-        cards += `<div class="text-center p-4 bg-slate-50 rounded-2xl"><p class="text-xs text-slate-500">${item.name}</p><p class="text-2xl font-bold">${item.value}%</p></div>`;
-      });
-      document.getElementById("allocationCards").innerHTML = cards;
-
-      let instHTML = "";
-      rec.instruments.forEach(inst => {
-        instHTML += `<span class="px-4 py-1.5 bg-white text-emerald-700 text-xs font-medium rounded-xl border border-emerald-200">${inst}</span>`;
-      });
-      document.getElementById("instruments").innerHTML = instHTML;
-    }
-
-    function renderCalculator() {
-      const monthly = parseFloat(document.getElementById("calcMonthly").value) || 5000;
-      const rate = parseFloat(document.getElementById("calcRate").value) || 12;
-      const years = parseFloat(document.getElementById("calcYears").value) || 10;
-
-      const futureValue = Math.round(calculateFutureValue(monthly, rate, years));
-      const invested = monthly * 12 * years;
-
-      document.getElementById("totalInvested").textContent = `₹${invested.toLocaleString()}`;
-      document.getElementById("estReturns").textContent = `₹${(futureValue - invested).toLocaleString()}`;
-      document.getElementById("finalValue").textContent = `₹${futureValue.toLocaleString()}`;
-
-      const labels = [], values = [], investedData = [];
-      for (let i = 0; i <= years; i++) {
-        labels.push(`Yr ${i}`);
-        values.push(Math.round(calculateFutureValue(monthly, rate, i)));
-        investedData.push(monthly * 12 * i);
-      }
-
-      if (growthChart) growthChart.destroy();
-      growthChart = new Chart(document.getElementById("growthLineChart"), {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [
-            { label: "Total Value", data: values, borderColor: "#10b981", tension: 0.4, borderWidth: 4 },
-            { label: "Invested", data: investedData, borderColor: "#94a3b8", borderDash: [5, 5], borderWidth: 2 }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "top" } } }
-      });
-    }
-
-    function renderGoals() {
-      const container = document.getElementById("goalsContainer");
-      container.innerHTML = "";
-      goals.forEach(goal => {
-        const remaining = goal.targetAmount - goal.currentSavings;
-        const { monthly, type, strategy } = getGoalStrategy(remaining, goal.durationYears);
-        const progress = Math.min((goal.currentSavings / goal.targetAmount) * 100, 100);
-
-        const div = document.createElement("div");
-        div.className = "p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group";
-        div.innerHTML = `
-          <button onclick="removeGoal('${goal.id}')" class="absolute top-5 right-5 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-            <div class="md:col-span-4 space-y-4">
-              <select onchange="updateGoal('${goal.id}', 'type', this.value)" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
-                <option value="Car" ${goal.type==='Car'?'selected':''}>Car</option>
-                <option value="House" ${goal.type==='House'?'selected':''}>House</option>
-                <option value="Travel" ${goal.type==='Travel'?'selected':''}>Travel</option>
-                <option value="Emergency" ${goal.type==='Emergency'?'selected':''}>Emergency</option>
-                <option value="Other" ${goal.type==='Other'?'selected':''}>Other</option>
-              </select>
-              <input type="number" value="${goal.targetAmount}" oninput="updateGoal('${goal.id}', 'targetAmount', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
-              <div class="grid grid-cols-2 gap-3">
-                <input type="number" value="${goal.durationYears}" oninput="updateGoal('${goal.id}', 'durationYears', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
-                <input type="number" value="${goal.currentSavings}" oninput="updateGoal('${goal.id}', 'currentSavings', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
-              </div>
-            </div>
-            <div class="md:col-span-8">
-              <div class="flex justify-between mb-3">
-                <div><p class="text-xs text-slate-500">Progress</p><p class="text-2xl font-bold">${Math.round(progress)}%</p></div>
-                <div class="text-right"><p class="text-xs text-slate-500">Monthly Needed</p><p class="text-2xl font-bold text-emerald-600">₹${Math.round(monthly).toLocaleString()}</p></div>
-              </div>
-              <div class="h-2 bg-slate-200 rounded-full overflow-hidden mb-6">
-                <div class="h-full bg-emerald-500" style="width: ${progress}%"></div>
-              </div>
-              <div class="p-5 bg-white rounded-2xl border border-slate-200 flex gap-4">
-                <div class="bg-emerald-50 p-3 rounded-xl"><i class="fa-solid fa-briefcase text-emerald-600"></i></div>
-                <div><p class="font-semibold text-slate-800">Strategy: ${type}</p><p class="text-sm text-slate-500 mt-1">${strategy}</p></div>
-              </div>
-            </div>
-          </div>`;
-        container.appendChild(div);
-      });
-    }
-
-    function renderInsights() {
-      const { savings } = getIncomeSplitLogic(profile.monthlyIncome, profile.maritalStatus, profile.dependents);
-      const insights = [];
-      if (savings < 20) insights.push("Your savings rate is below the recommended 20%. Try reducing 'Wants'.");
-      if (profile.riskAppetite < 30 && profile.age < 35) insights.push("You're young! Consider a higher risk appetite for better long-term growth.");
-      if (goals.length === 0) insights.push("Set some financial goals to stay motivated.");
-      if (savings >= 30) insights.push("Excellent savings rate! You're on the fast track to financial freedom.");
-
-      let html = "";
-      insights.forEach(text => html += `<li class="flex gap-3"><span class="mt-1.5 w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0"></span>${text}</li>`);
-      document.getElementById("insightsList").innerHTML = html || "<li class='text-emerald-100/70'>Everything looks great!</li>";
-    }
-
-    function updateHealthScore() {
-      const { savings } = getIncomeSplitLogic(profile.monthlyIncome, profile.maritalStatus, profile.dependents);
-      let score = Math.min(savings * 4, 100);
-      if (profile.age < 30 && savings > 20) score += 10;
-      if (goals.length > 0) score += 5;
-      document.getElementById("healthScore").textContent = Math.min(Math.round(score), 100);
-    }
-
-    // ==================== Tab Switching ====================
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-      document.getElementById(`tab${tab}`).classList.remove('hidden');
-
-      document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.remove('active', 'bg-emerald-600', 'text-white');
-        btn.classList.add('bg-slate-100');
-      });
-      document.getElementById(`btn${tab}`).classList.add('active', 'bg-emerald-600', 'text-white');
-
-      if (tab === 2) renderCalculator(); // Refresh chart when switching to tab 2
-    }
-
-    // ==================== Event Listeners & Goal Functions ====================
-    function setupListeners() {
-      const inputs = ["monthlyIncome", "age", "maritalStatus", "dependents", "riskAppetite"];
-      inputs.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.addEventListener("input", () => {
-            if (id === "monthlyIncome") profile.monthlyIncome = parseFloat(el.value);
-            if (id === "age") profile.age = parseFloat(el.value);
-            if (id === "maritalStatus") profile.maritalStatus = el.value;
-            if (id === "dependents") profile.dependents = parseFloat(el.value);
-            if (id === "riskAppetite") profile.riskAppetite = parseFloat(el.value);
-
-            renderAll();
-          });
-        }
-      });
-
-      ["calcMonthly", "calcRate", "calcYears"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener("input", renderCalculator);
-      });
-    }
-
-    function computeModalRiskScore() {
-      const selectedOptions = Array.from(document.querySelectorAll('.risk-option.selected'));
-      const totalQuestions = 12;
-      const matchedCount = selectedOptions.length;
-      const score = matchedCount === totalQuestions
-        ? Math.round(selectedOptions.reduce((sum, el) => sum + parseInt(el.dataset.value, 10), 0) / totalQuestions)
-        : 50;
-      document.getElementById('computedRiskScore').textContent = `${score}%`;
-      document.getElementById('riskSelectionCount').textContent = `${matchedCount} / ${totalQuestions}`;
-      const saveButton = document.getElementById('saveRiskAssessment');
-      if (saveButton) {
-        saveButton.disabled = matchedCount !== totalQuestions;
-        saveButton.classList.toggle('opacity-50', matchedCount !== totalQuestions);
-      }
-      return score;
-    }
-
-    function openRiskModal() {
-      document.getElementById('riskModal').classList.remove('hidden');
-      computeModalRiskScore();
-    }
-
-    function closeRiskModal() {
-      document.getElementById('riskModal').classList.add('hidden');
-    }
-
-    function clearRiskSelection() {
-      document.querySelectorAll('.risk-option').forEach(el => el.classList.remove('selected', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700'));
-      document.getElementById('computedRiskScore').textContent = '50%';
-      document.getElementById('riskSelectionCount').textContent = '0 / 12';
-      const saveButton = document.getElementById('saveRiskAssessment');
-      if (saveButton) {
-        saveButton.disabled = true;
-        saveButton.classList.add('opacity-50');
-      }
-    }
-
-    function setupRiskAssessmentModal() {
-      const guideButton = document.getElementById('riskGuideButton');
-      if (guideButton) guideButton.addEventListener('click', openRiskModal);
-      document.getElementById('closeRiskModal').addEventListener('click', closeRiskModal);
-      document.getElementById('resetRiskAssessment').addEventListener('click', () => {
-        clearRiskSelection();
-        profile.riskAppetite = 50;
-        renderAll();
-      });
-      document.getElementById('saveRiskAssessment').addEventListener('click', () => {
-        const score = computeModalRiskScore();
-        if (score !== 50 || document.querySelectorAll('.risk-option.selected').length === 12) {
-          profile.riskAppetite = score;
-          renderAll();
-          closeRiskModal();
-        }
-      });
-      document.querySelectorAll('.risk-option').forEach(option => {
-        option.addEventListener('click', () => {
-          const question = option.dataset.question;
-          document.querySelectorAll(`.risk-option[data-question="${question}"]`).forEach(el => el.classList.remove('selected', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700'));
-          option.classList.add('selected', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
-          computeModalRiskScore();
-        });
-      });
-      clearRiskSelection();
-    }
-
-    window.addGoal = function() {
-      goals.push({ id: Date.now().toString(), type: "Other", targetAmount: 100000, durationYears: 3, currentSavings: 0 });
-      renderGoals();
-      renderInsights();
-      updateHealthScore();
-    };
-
-    window.removeGoal = function(id) {
-      goals = goals.filter(g => g.id !== id);
-      renderGoals();
-      renderInsights();
-      updateHealthScore();
-    };
-
-    window.updateGoal = function(id, field, value) {
-      const goal = goals.find(g => g.id === id);
-      if (goal) {
-        goal[field] = value;
-        renderGoals();
-        renderInsights();
-        updateHealthScore();
-      }
-    };
-
-    // Initialize
- window.onload = () => {
-  setupListeners();
-  setupChatbot();
-  setupRiskAssessmentModal();
-  renderAll();
-  switchTab(1);
-};
-
-    function toggleChatbotPanel(show) {
-  const panel = document.getElementById("chatbotPanel");
-  const isHidden = panel.classList.contains("hidden");
-  if (show === false) panel.classList.add("hidden");
-  else if (show === true) panel.classList.remove("hidden");
-  else panel.classList.toggle("hidden", !isHidden);
-}
-
-function addChatbotMessage(text, sender) {
-  const messages = document.getElementById("chatbotMessages");
-  const bubble = document.createElement("div");
-  bubble.className = `chatbot-bubble ${sender === "user" ? "chatbot-user ml-auto" : "chatbot-bot"}`;
-  bubble.textContent = text;
-  messages.appendChild(bubble);
-  messages.scrollTop = messages.scrollHeight;
-}
-
-function getFinanceBotReply(text) {
-  const lower = text.toLowerCase();
-  if (!text.trim()) return "Please ask a finance question.";
-  if (lower.includes("mutual fund") || lower.includes("fund")) return "Mutual funds are pooled investment schemes. Pick one based on your risk appetite and investment horizon.";
-  if (lower.includes("sip")) return "A SIP helps you invest a fixed amount monthly and benefit from rupee cost averaging.";
-  if (lower.includes("tax")) return "Use tax-saving investments like ELSS, PPF, and NPS to reduce your taxable income.";
-  if (lower.includes("gold")) return "Gold ETF or sovereign gold bonds are good ways to invest in gold without physical storage.";
-  if (lower.includes("debt")) return "Debt funds are lower-risk than equity and good for stable returns.";
-  if (lower.includes("equity")) return "Equity is best for long-term growth but can be volatile in the short term.";
-  if (lower.includes("budget") || lower.includes("savings")) return "Try the 50/30/20 rule: 50% needs, 30% wants, 20% savings/investments.";
-  return "I only answer finance questions about investing, saving, budgeting, and similar topics.";
-}
-
-function sendChatbotMessage() {
-  const input = document.getElementById("chatbotInput");
-  const text = input.value.trim();
-  if (!text) return;
-  addChatbotMessage(text, "user");
-  input.value = "";
-  setTimeout(() => addChatbotMessage(getFinanceBotReply(text), "bot"), 300);
-}
-
-function setupChatbot() {
-  document.getElementById("chatbotButton").addEventListener("click", () => toggleChatbotPanel());
-  document.getElementById("chatbotClose").addEventListener("click", () => toggleChatbotPanel(false));
-  document.getElementById("chatbotSend").addEventListener("click", sendChatbotMessage);
-  document.getElementById("chatbotInput").addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      sendChatbotMessage();
-    }
-  });
-  addChatbotMessage("Hi! I am your finance assistant. Ask me about investing, saving, taxes, or mutual funds.", "bot");
-}
-
-
-
-
-
-
-
-
-  </script>
 </body>
 </html>
