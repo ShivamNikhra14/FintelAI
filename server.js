@@ -20,21 +20,11 @@ app.use((req, res, next) => {
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
-const ALPHA_VANTAGE_API_KEY = "ATAVU7ZNHDN9YX7T";
-const ALPHA_VANTAGE_BASE_URL = "https://www.alphavantage.co/query";
 
-const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
-if (serviceAccountPath) {
-  admin.initializeApp({
-    credential: admin.credential.cert(require(serviceAccountPath))
-  });
-} else {
-  admin.initializeApp();
-}
-
-if (!GEMINI_API_KEY) {
-  console.error("❌ Error: GEMINI_API_KEY not found in .env file");
-  console.log("Please create a .env file with: GEMINI_API_KEY=your-key-here");
+if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_ACTUAL_GEMINI_API_KEY_HERE' || GEMINI_API_KEY.startsWith('AQ.')) {
+  console.error("❌ Error: GEMINI_API_KEY not set or invalid in .env file");
+  console.log("Please get your API key from: https://aistudio.google.com/app/apikey");
+  console.log("And update the GEMINI_API_KEY in .env");
 }
 
 app.post('/api/chat', async (req, res) => {
@@ -42,6 +32,10 @@ app.post('/api/chat', async (req, res) => {
     const { message } = req.body;
     if (!message || !message.trim()) {
       return res.status(400).json({ error: "Message cannot be empty" });
+    }
+
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_ACTUAL_GEMINI_API_KEY_HERE' || GEMINI_API_KEY.startsWith('AQ.')) {
+      return res.status(500).json({ error: "Gemini API key not configured. Please update GEMINI_API_KEY in .env file." });
     }
 
     const response = await axios.post(
