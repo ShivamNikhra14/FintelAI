@@ -1,14 +1,24 @@
-.income.bg-white.rounded-3xl.shadow-sm.border.border-slate-200.p-6 {
-    padding: 13px;
+/* Adjust card padding */
+#tab1 .bg-white.p-6 {
+    padding: 20px;
 }
-.bg-emerald-900.text-white.rounded-3xl.p-6.relative.overflow-hidden.shadow-lg{
+
+/* Add margin to Smart Insights */
+.bg-emerald-800.text-white.rounded-3xl {
     margin-top: 32px;
 }
-button#btn1{
-    color: black;
-    background-color: white;
+
+/* Header styling */
+.header {
+    background: linear-gradient(135deg, #4C6FFF 0%, #1E3A8A 100%);
+    color: white;
 }
-button#btn2{
-    color: black;
-    background-color: white;
+
+.header h1 {
+    color: white;
+}
+
+/* General Body Styling overrides */
+body {
+    background: #f8fafc; /* match bg-slate-50 */
 }
