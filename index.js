@@ -464,16 +464,16 @@
     }
 
     function renderProfile() {
-      document.getElementById("monthlyIncome").value = profile.monthlyIncome;
-      document.getElementById("age").value = profile.age;
-      document.getElementById("maritalStatus").value = profile.maritalStatus;
-      document.getElementById("riskAppetite").value = profile.riskAppetite;
-      document.getElementById("riskValue").textContent = profile.riskAppetite + "%";
+      document.getElementById("monthlyIncome").value = isNaN(profile.monthlyIncome) ? 50000 : profile.monthlyIncome;
+      document.getElementById("age").value = isNaN(profile.age) ? 25 : profile.age;
+      document.getElementById("maritalStatus").value = profile.maritalStatus || "Single";
+      document.getElementById("riskAppetite").value = isNaN(profile.riskAppetite) ? 50 : profile.riskAppetite;
+      document.getElementById("riskValue").textContent = (isNaN(profile.riskAppetite) ? 50 : profile.riskAppetite) + "%";
 
       const depContainer = document.getElementById("dependentsContainer");
       if (profile.maritalStatus === "Married") {
         depContainer.classList.remove("hidden");
-        document.getElementById("dependents").value = profile.dependents;
+        document.getElementById("dependents").value = isNaN(profile.dependents) ? 0 : profile.dependents;
       } else {
         depContainer.classList.add("hidden");
       }
@@ -650,11 +650,11 @@
         const el = document.getElementById(id);
         if (el) {
           el.addEventListener("input", async () => {
-            if (id === "monthlyIncome") profile.monthlyIncome = parseFloat(el.value);
-            if (id === "age") profile.age = parseFloat(el.value);
+            if (id === "monthlyIncome") profile.monthlyIncome = parseFloat(el.value) || 0;
+            if (id === "age") profile.age = parseFloat(el.value) || 0;
             if (id === "maritalStatus") profile.maritalStatus = el.value;
-            if (id === "dependents") profile.dependents = parseFloat(el.value);
-            if (id === "riskAppetite") profile.riskAppetite = parseFloat(el.value);
+            if (id === "dependents") profile.dependents = parseFloat(el.value) || 0;
+            if (id === "riskAppetite") profile.riskAppetite = parseFloat(el.value) || 0;
 
             renderAll();
             // Auto-save to Firestore on every change
@@ -729,7 +729,7 @@ async function getFinanceBotReply(text) {
   if (!text.trim()) return "Please ask a finance question.";
 
   try {
-    const response = await fetch('http://localhost:5000/api/chat', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -738,14 +738,14 @@ async function getFinanceBotReply(text) {
     });
     
     if (!response.ok) {
-      return "⚠️ Server error. Make sure the backend is running (npm start).";
+      return "⚠️ Server error. Please try again later.";
     }
     
     const data = await response.json();
     return data.reply || "Unable to get response from AI.";
   } catch (error) {
     console.error("Chat request failed:", error);
-    return "⚠️ Cannot connect to chatbot server. Running on localhost:5000? Start it with: npm start";
+    return "⚠️ Cannot connect to the chatbot service. Please try again later.";;
   }
 }
 
@@ -786,7 +786,7 @@ async function searchStocks() {
   if (!query) return;
 
   try {
-    const response = await fetch(`http://localhost:5000/api/stock/search?keywords=${encodeURIComponent(query)}`);
+    const response = await fetch(`/api/stock/search?keywords=${encodeURIComponent(query)}`);
     const data = await response.json();
 
     if (data.bestMatches && data.bestMatches.length > 0) {
@@ -821,7 +821,7 @@ async function selectStock(symbol, name) {
   document.getElementById('searchResults').classList.add('hidden');
 
   try {
-    const response = await fetch(`http://localhost:5000/api/stock/quote?symbol=${symbol}`);
+    const response = await fetch(`/api/stock/quote?symbol=${symbol}`);
     const data = await response.json();
 
     if (data['Global Quote']) {
@@ -855,7 +855,7 @@ async function loadStockChart(interval = 'daily', symbol = null) {
   }
 
   try {
-    const response = await fetch(`http://localhost:5000/api/stock/history?symbol=${symbol}&interval=${interval}`);
+    const response = await fetch(`/api/stock/history?symbol=${symbol}&interval=${interval}`);
     const data = await response.json();
 
     const timeSeriesKey = interval === 'intraday' ? 'Time Series (5min)' : 'Time Series (Daily)';
@@ -917,7 +917,7 @@ function renderStockChart(timeSeries, interval) {
 
 async function loadMarketNews() {
   try {
-    const response = await fetch('http://localhost:5000/api/market/news');
+    const response = await fetch('/api/market/news');
     const data = await response.json();
 
     if (data.feed && data.feed.length > 0) {
