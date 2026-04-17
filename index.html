@@ -104,7 +104,11 @@
                   <span id="riskValue" class="font-bold text-emerald-600">50%</span>
                 </div>
                 <input id="riskAppetite" type="range" min="0" max="100" value="50" class="w-full accent-emerald-600">
-                <div class="flex justify-between text-xs text-slate-400 mt-1">
+                <p class="mt-3 text-sm text-slate-500">Customize your risk profile or use guided assessment for a recommended score.</p>
+                <button id="riskGuideButton" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800"> 
+                  <i class="fa-solid fa-circle-info"></i> Guided risk assessment
+                </button>
+                <div class="flex justify-between text-xs text-slate-400 mt-3">
                   <span>Conservative</span>
                   <span>Aggressive</span>
                 </div>
@@ -202,7 +206,7 @@
               <div class="md:col-span-2 space-y-6">
                 <div id="allocationCards" class="grid grid-cols-3 gap-4"></div>
                 <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
-                  <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-3">Suggested Instruments</p>
+                  <p class="text-xs font-bold text-emerald-700 uppercase tracking-widest mb-3">Suggested Funds, ETFs & Stocks</p>
                   <div id="instruments" class="flex flex-wrap gap-2"></div>
                 </div>
               </div>
@@ -256,6 +260,140 @@
     </div>
   </div>
 
+  <div id="riskModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/70 p-4">
+    <div class="w-full max-w-4xl rounded-[28px] bg-white shadow-2xl overflow-hidden">
+      <div class="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
+        <div>
+          <h3 class="text-xl font-semibold text-slate-900">Risk Appetite Assessment</h3>
+          <p class="mt-1 text-sm text-slate-500">Answer 12 quick questions to calculate your recommended risk score.</p>
+        </div>
+        <button id="closeRiskModal" class="text-slate-500 hover:text-slate-900">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="px-6 py-6 space-y-6 max-h-[calc(100vh-10rem)] overflow-y-auto">
+        <div class="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4">
+          <p class="text-sm text-slate-700">Answered</p>
+          <p id="riskSelectionCount" class="text-sm font-semibold text-slate-900">0 / 12</p>
+        </div>
+        <div class="space-y-5">
+          <div>
+            <p class="font-semibold text-slate-800">Q1. What is your current age?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q1" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Below 30</button>
+              <button type="button" data-question="q1" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">30-40</button>
+              <button type="button" data-question="q1" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">41-50</button>
+              <button type="button" data-question="q1" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">51-60</button>
+              <button type="button" data-question="q1" data-value="100" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Above 60</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q2. When do you expect to need a significant portion of this investment money?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <button type="button" data-question="q2" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Less than 3 years</button>
+              <button type="button" data-question="q2" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">3-5 years</button>
+              <button type="button" data-question="q2" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">6-10 years</button>
+              <button type="button" data-question="q2" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">More than 10 years</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q3. How would you describe your current financial situation?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q3" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">High debt and little savings</button>
+              <button type="button" data-question="q3" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Some savings but liabilities</button>
+              <button type="button" data-question="q3" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Good savings and stable income</button>
+              <button type="button" data-question="q3" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Strong savings + emergency fund</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q4. What is your level of investment knowledge?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <button type="button" data-question="q4" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">None/Beginner</button>
+              <button type="button" data-question="q4" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Basic</button>
+              <button type="button" data-question="q4" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Moderate</button>
+              <button type="button" data-question="q4" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Advanced</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q5. Which statement best describes your investment philosophy?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q5" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Safety first even if returns are low</button>
+              <button type="button" data-question="q5" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Balance between growth and safety</button>
+              <button type="button" data-question="q5" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Higher risk for higher returns</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q6. If your investment portfolio drops by 20% in a short period, what would you do?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <button type="button" data-question="q6" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Sell everything</button>
+              <button type="button" data-question="q6" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Sell some</button>
+              <button type="button" data-question="q6" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Do nothing and wait</button>
+              <button type="button" data-question="q6" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Buy more</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q7. How do you feel about market volatility?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <button type="button" data-question="q7" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Very uncomfortable</button>
+              <button type="button" data-question="q7" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Somewhat uncomfortable</button>
+              <button type="button" data-question="q7" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Neutral</button>
+              <button type="button" data-question="q7" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Comfortable</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q8. What is your primary investment goal?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q8" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Capital preservation</button>
+              <button type="button" data-question="q8" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Balanced growth</button>
+              <button type="button" data-question="q8" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Aggressive growth</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q9. Suppose you invested ₹1,00,000 and after 6 months it became ₹80,000. How would you react?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <button type="button" data-question="q9" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Very worried, withdraw</button>
+              <button type="button" data-question="q9" data-value="40" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Concerned but hold</button>
+              <button type="button" data-question="q9" data-value="60" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Understand market cycles</button>
+              <button type="button" data-question="q9" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Not worried</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q10. Which portfolio would you prefer?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q10" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Portfolio A: 6% low risk</button>
+              <button type="button" data-question="q10" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Portfolio B: 10% moderate</button>
+              <button type="button" data-question="q10" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Portfolio C: 15%+ high risk</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q11. How concerned are you about inflation?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q11" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Not concerned</button>
+              <button type="button" data-question="q11" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Somewhat concerned</button>
+              <button type="button" data-question="q11" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Very concerned</button>
+            </div>
+          </div>
+          <div>
+            <p class="font-semibold text-slate-800">Q12. If you suddenly received ₹50,000 to invest, what would you do?</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button type="button" data-question="q12" data-value="20" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Safe options (FD)</button>
+              <button type="button" data-question="q12" data-value="50" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Split between safe and growth</button>
+              <button type="button" data-question="q12" data-value="80" class="risk-option rounded-2xl border border-slate-200 px-4 py-4 text-left text-slate-700 hover:border-emerald-500">Mostly in equity/mutual funds</button>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-3xl border border-emerald-100 bg-emerald-50 p-4">
+          <p class="text-sm text-slate-600">Recommended score:</p>
+          <p id="computedRiskScore" class="text-3xl font-semibold text-emerald-700">50%</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <button id="resetRiskAssessment" class="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">Reset</button>
+        <button id="saveRiskAssessment" disabled class="rounded-2xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white opacity-50">Submit & Get My Risk Profile</button>
+      </div>
+    </div>
+  </div>
+
   <style>
     #chatbotButton { transition: transform 0.2s ease; }
     #chatbotButton:hover { transform: translateY(-3px); }
@@ -280,13 +418,287 @@
       return { needs, wants, savings };
     }
 
-    function getInvestmentRecommendation(risk) {
-      if (risk <= 20) return { equity: 10, debt: 80, gold: 10, instruments: ["FD", "Bonds", "Liquid Funds"] };
-      if (risk <= 40) return { equity: 30, debt: 60, gold: 10, instruments: ["Debt Funds", "Gold ETFs", "Large Cap Stocks"] };
-      if (risk <= 60) return { equity: 50, debt: 40, gold: 10, instruments: ["Hybrid Mutual Funds", "Index Funds", "REITs"] };
-      if (risk <= 80) return { equity: 75, debt: 15, gold: 10, instruments: ["Equity Mutual Funds", "Mid-cap Stocks", "ETFs"] };
-      return { equity: 85, debt: 5, gold: 10, instruments: ["Small-cap Stocks", "Direct Equity", "Crypto (Optional)"] };
+  function getInvestmentRecommendation(risk) {
+  const bucket = Math.min(100, Math.max(0, Math.round(risk / 5) * 5));
+
+  const recommendationMap = {
+    0: {
+      equity: 0, debt: 90, gold: 10,
+      instruments: [
+        "Bank FD",
+        "HDFC Corporate Bond Fund (Direct)",
+        "ICICI Prudential Corporate Bond Fund",
+        "Axis Liquid Fund",
+        "HDFC Liquid Fund",
+        "SBI Overnight Fund",
+        "Sovereign Gold Bond"
+      ]
+    },
+
+    5: {
+      equity: 0, debt: 85, gold: 15,
+      instruments: [
+        "Bank FD",
+        "ICICI Prudential Liquid Fund",
+        "Axis Liquid Fund",
+        "UTI Liquid Fund",
+        "HDFC Overnight Fund",
+        "SBI Liquid Fund",
+        "Nippon India ETF Gold"
+      ]
+    },
+
+    10: {
+      equity: 5, debt: 75, gold: 20,
+      instruments: [
+        "ICICI Prudential Liquid Fund",
+        "HDFC Overnight Fund",
+        "Axis Liquid Fund",
+        "SBI Liquid Fund",
+        "Bank FD",
+        "UTI Liquid Fund",
+        "Sovereign Gold Bond"
+      ]
+    },
+
+    15: {
+      equity: 10, debt: 70, gold: 20,
+      instruments: [
+        "HDFC Corporate Bond Fund",
+        "ICICI Prudential Short Term Fund",
+        "Axis Short Duration Fund",
+        "SBI Short Term Debt Fund",
+        "HDFC Liquid Fund",
+        "UTI Liquid Fund",
+        "Nippon India ETF Gold"
+      ]
+    },
+
+    20: {
+      equity: 15, debt: 65, gold: 20,
+      instruments: [
+        "ICICI Prudential Bond Fund",
+        "Tata Short Term Fund",
+        "Axis Banking & PSU Debt Fund",
+        "SBI Magnum Medium Duration Fund",
+        "HDFC Corporate Bond Fund",
+        "UTI Short Duration Fund",
+        "SBI Gold ETF"
+      ]
+    },
+
+    25: {
+      equity: 20, debt: 55, gold: 25,
+      instruments: [
+        "Tata Hybrid Equity Fund",
+        "ICICI Prudential Balanced Advantage Fund",
+        "HDFC Corporate Bond Fund",
+        "Axis Aggressive Hybrid Fund",
+        "SBI Equity Hybrid Fund",
+        "UTI Hybrid Equity Fund",
+        "SBI Gold ETF"
+      ]
+    },
+
+    30: {
+      equity: 30, debt: 50, gold: 20,
+      instruments: [
+        "HDFC Balanced Advantage Fund",
+        "ICICI Prudential Balanced Advantage Fund",
+        "Nippon India Nifty 50 ETF",
+        "UTI Nifty Index Fund",
+        "HDFC Corporate Bond Fund",
+        "Axis Bluechip Fund",
+        "SBI Gold ETF"
+      ]
+    },
+
+    35: {
+      equity: 35, debt: 45, gold: 20,
+      instruments: [
+        "ICICI Prudential Bluechip Fund",
+        "Axis Bluechip Fund",
+        "UTI Nifty Index Fund",
+        "HDFC Corporate Bond Fund",
+        "ICICI Prudential Bond Fund",
+        "Nippon India Nifty ETF",
+        "SBI Gold ETF"
+      ]
+    },
+
+    40: {
+      equity: 40, debt: 40, gold: 20,
+      instruments: [
+        "Mirae Asset Large Cap Fund",
+        "ICICI Prudential Bluechip Fund",
+        "Nippon India Nifty 50 ETF",
+        "UTI Nifty ETF",
+        "HDFC Corporate Bond Fund",
+        "Axis Short Term Fund",
+        "ICICI Prudential Bond Fund"
+      ]
+    },
+
+    45: {
+      equity: 45, debt: 35, gold: 20,
+      instruments: [
+        "Axis Bluechip Fund",
+        "Kotak Bluechip Fund",
+        "Nippon India Nifty ETF",
+        "UTI Nifty ETF",
+        "ICICI Prudential Corporate Bond Fund",
+        "Axis Banking & PSU Debt Fund",
+        "Nippon India ETF Gold"
+      ]
+    },
+
+    50: {
+      equity: 50, debt: 30, gold: 20,
+      instruments: [
+        "SBI Bluechip Fund",
+        "ICICI Prudential Bluechip Fund",
+        "Motilal Oswal Nasdaq 100 ETF",
+        "Nippon India Nifty 50 ETF",
+        "HDFC Corporate Bond Fund",
+        "Axis Short Duration Fund",
+        "Bank FD"
+      ]
+    },
+
+    55: {
+      equity: 55, debt: 25, gold: 20,
+      instruments: [
+        "Parag Parikh Flexi Cap Fund",
+        "Mirae Asset Large Cap Fund",
+        "Nifty 50 ETF",
+        "Motilal Oswal Nasdaq 100 ETF",
+        "ICICI Prudential Bond Fund",
+        "Axis Short Duration Fund",
+        "Nippon India ETF Gold"
+      ]
+    },
+
+    60: {
+      equity: 60, debt: 20, gold: 20,
+      instruments: [
+        "ICICI Prudential Multicap Fund",
+        "Parag Parikh Flexi Cap Fund",
+        "Nifty Next 50 ETF",
+        "Motilal Oswal Nasdaq 100 ETF",
+        "Axis Midcap Fund",
+        "ICICI Prudential Bond Fund",
+        "SBI Gold ETF"
+      ]
+    },
+
+    65: {
+      equity: 65, debt: 15, gold: 20,
+      instruments: [
+        "Kotak Emerging Equity Fund",
+        "Axis Midcap Fund",
+        "Nifty Next 50 ETF",
+        "Motilal Oswal Nasdaq ETF",
+        "Power Sector ETF",
+        "ICICI Prudential Short Term Fund",
+        "Nippon India ETF Gold"
+      ]
+    },
+
+    70: {
+      equity: 70, debt: 10, gold: 20,
+      instruments: [
+        "DSP Midcap Fund",
+        "Kotak Emerging Equity Fund",
+        "Nifty Bank ETF",
+        "Motilal Oswal Nasdaq ETF",
+        "Nifty Next 50 ETF",
+        "Axis Small Cap Fund",
+        "Sovereign Gold Bond"
+      ]
+    },
+
+    75: {
+      equity: 75, debt: 5, gold: 20,
+      instruments: [
+        "Motilal Oswal Nifty 500 Fund",
+        "DSP Midcap Fund",
+        "Axis Small Cap Fund",
+        "Bank Nifty ETF",
+        "Nifty Next 50 ETF",
+        "Motilal Oswal Nasdaq ETF",
+        "Nippon India ETF Gold"
+      ]
+    },
+
+    80: {
+      equity: 80, debt: 0, gold: 20,
+      instruments: [
+        "ICICI Prudential Value Discovery Fund",
+        "Parag Parikh Flexi Cap Fund",
+        "Nifty 50 ETF",
+        "Nifty Next 50 ETF",
+        "Motilal Oswal Nasdaq ETF",
+        "Sectoral ETF",
+        "Gold ETF"
+      ]
+    },
+
+    85: {
+      equity: 85, debt: 0, gold: 15,
+      instruments: [
+        "SBI Small Cap Fund",
+        "Axis Small Cap Fund",
+        "Nifty Next 50 ETF",
+        "Midcap 150 ETF",
+        "Sectoral ETF",
+        "Motilal Oswal Nasdaq ETF",
+        "Gold ETF"
+      ]
+    },
+
+    90: {
+      equity: 90, debt: 0, gold: 10,
+      instruments: [
+        "Direct Large Cap Stocks",
+        "Nifty 50 ETF",
+        "Nifty Next 50 ETF",
+        "Midcap ETF",
+        "Sectoral ETF",
+        "Motilal Oswal Nasdaq ETF",
+        "Gold ETF"
+      ]
+    },
+
+    95: {
+      equity: 95, debt: 0, gold: 5,
+      instruments: [
+        "High Beta Stocks",
+        "Bank Nifty ETF",
+        "Midcap ETF",
+        "Small Cap ETF",
+        "Sectoral ETF",
+        "Nasdaq ETF",
+        "Gold ETF"
+      ]
+    },
+
+    100: {
+      equity: 100, debt: 0, gold: 0,
+      instruments: [
+        "F&O Strategy (Nifty/Bank Nifty)",
+        "Direct Equity Portfolio",
+        "Nifty 50 ETF",
+        "Bank Nifty ETF",
+        "Midcap ETF",
+        "Small Cap ETF",
+        "Sector Rotation Strategy"
+      ]
     }
+  };
+
+  return recommendationMap[bucket];
+}
+    
 
     function calculateFutureValue(monthly, rate, years) {
       const r = rate / 100 / 12;
@@ -527,6 +939,71 @@
       });
     }
 
+    function computeModalRiskScore() {
+      const selectedOptions = Array.from(document.querySelectorAll('.risk-option.selected'));
+      const totalQuestions = 12;
+      const matchedCount = selectedOptions.length;
+      const score = matchedCount === totalQuestions
+        ? Math.round(selectedOptions.reduce((sum, el) => sum + parseInt(el.dataset.value, 10), 0) / totalQuestions)
+        : 50;
+      document.getElementById('computedRiskScore').textContent = `${score}%`;
+      document.getElementById('riskSelectionCount').textContent = `${matchedCount} / ${totalQuestions}`;
+      const saveButton = document.getElementById('saveRiskAssessment');
+      if (saveButton) {
+        saveButton.disabled = matchedCount !== totalQuestions;
+        saveButton.classList.toggle('opacity-50', matchedCount !== totalQuestions);
+      }
+      return score;
+    }
+
+    function openRiskModal() {
+      document.getElementById('riskModal').classList.remove('hidden');
+      computeModalRiskScore();
+    }
+
+    function closeRiskModal() {
+      document.getElementById('riskModal').classList.add('hidden');
+    }
+
+    function clearRiskSelection() {
+      document.querySelectorAll('.risk-option').forEach(el => el.classList.remove('selected', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700'));
+      document.getElementById('computedRiskScore').textContent = '50%';
+      document.getElementById('riskSelectionCount').textContent = '0 / 12';
+      const saveButton = document.getElementById('saveRiskAssessment');
+      if (saveButton) {
+        saveButton.disabled = true;
+        saveButton.classList.add('opacity-50');
+      }
+    }
+
+    function setupRiskAssessmentModal() {
+      const guideButton = document.getElementById('riskGuideButton');
+      if (guideButton) guideButton.addEventListener('click', openRiskModal);
+      document.getElementById('closeRiskModal').addEventListener('click', closeRiskModal);
+      document.getElementById('resetRiskAssessment').addEventListener('click', () => {
+        clearRiskSelection();
+        profile.riskAppetite = 50;
+        renderAll();
+      });
+      document.getElementById('saveRiskAssessment').addEventListener('click', () => {
+        const score = computeModalRiskScore();
+        if (score !== 50 || document.querySelectorAll('.risk-option.selected').length === 12) {
+          profile.riskAppetite = score;
+          renderAll();
+          closeRiskModal();
+        }
+      });
+      document.querySelectorAll('.risk-option').forEach(option => {
+        option.addEventListener('click', () => {
+          const question = option.dataset.question;
+          document.querySelectorAll(`.risk-option[data-question="${question}"]`).forEach(el => el.classList.remove('selected', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700'));
+          option.classList.add('selected', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+          computeModalRiskScore();
+        });
+      });
+      clearRiskSelection();
+    }
+
     window.addGoal = function() {
       goals.push({ id: Date.now().toString(), type: "Other", targetAmount: 100000, durationYears: 3, currentSavings: 0 });
       renderGoals();
@@ -555,6 +1032,7 @@
  window.onload = () => {
   setupListeners();
   setupChatbot();
+  setupRiskAssessmentModal();
   renderAll();
   switchTab(1);
 };
