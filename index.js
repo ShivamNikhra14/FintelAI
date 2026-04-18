@@ -591,10 +591,10 @@
                 <option value="Emergency" ${goal.type==='Emergency'?'selected':''}>Emergency</option>
                 <option value="Other" ${goal.type==='Other'?'selected':''}>Other</option>
               </select>
-              <input type="number" value="${goal.targetAmount}" oninput="updateGoal('${goal.id}', 'targetAmount', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+              <input type="number" value="${goal.targetAmount}" onchange="updateGoal('${goal.id}', 'targetAmount', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
               <div class="grid grid-cols-2 gap-3">
-                <input type="number" value="${goal.durationYears}" oninput="updateGoal('${goal.id}', 'durationYears', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
-                <input type="number" value="${goal.currentSavings}" oninput="updateGoal('${goal.id}', 'currentSavings', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+                <input type="number" value="${goal.durationYears}" onchange="updateGoal('${goal.id}', 'durationYears', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
+                <input type="number" value="${goal.currentSavings}" onchange="updateGoal('${goal.id}', 'currentSavings', Number(this.value))" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm">
               </div>
             </div>
             <div class="md:col-span-8">
